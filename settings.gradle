@@ -1,0 +1,4 @@
+rootProject.name = 'slotegrator-test-task'
+include 'api'
+include 'ui'
+

@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.qameta.allure.gradle.allure:allure-plugin:2.11.2"
+    }
+}
+
+allprojects {
+    group 'org.slotegrator'
+    version '1.0-SNAPSHOT'
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'io.qameta.allure'
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    def junitVersion = '5.8.1'
+    def allureVersion = '2.20.1'
+
+    dependencies {
+        //JUnit
+        implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+        implementation "io.qameta.allure:allure-java-commons:$allureVersion"
+
+        implementation 'org.aeonbits.owner:owner:1.0.12'
+    }
+
+    test {
+        useJUnitPlatform()
+        ignoreFailures = true
+    }
+
+    allure {
+        version = allureVersion
+        aspectjweaver = true
+        autoconfigure = true
+
+        useJUnit5 {
+            version = allureVersion // Latest Allure Version
+        }
+    }
+}

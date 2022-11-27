@@ -1,12 +1,5 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "io.qameta.allure.gradle.allure:allure-plugin:2.11.2"
-    }
+plugins {
+    id "io.qameta.allure" version "2.11.2"
 }
 
 allprojects {

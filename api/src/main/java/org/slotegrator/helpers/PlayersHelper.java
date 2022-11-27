@@ -16,6 +16,12 @@ public class PlayersHelper {
     private final PlayersBuilder playersBuilder = new PlayersBuilder();
     private final Properties properties = ConfigFactory.create(Properties.class);
 
+    /**
+     * Регистрация нового пользователя со случайными данными
+     * @param newUsername - логин
+     * @param password - пароль
+     * @return ответ с данными созданного пользователя
+     */
     public PlayersResponse registerNewPlayer(String newUsername, String password) {
         String guestUsername = properties.guestUsername();
         String email = newUsername + "@example.com";

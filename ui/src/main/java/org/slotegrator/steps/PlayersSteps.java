@@ -43,6 +43,11 @@ public class PlayersSteps {
         assertNotEquals(columnValues, valueElements.texts());
     }
 
+    /**
+     * Сбор данных из столбца column
+     * @param column - название столбца
+     * @return коллекция элементов (строк)
+     */
     private ElementsCollection getDataFromColumn(String column) {
         ElementsCollection elements = playersPage.playersTable.findAll(By.xpath(".//thead//th//a"));
         int index = 0;

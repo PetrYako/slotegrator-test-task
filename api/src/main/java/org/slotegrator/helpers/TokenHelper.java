@@ -10,6 +10,11 @@ public class TokenHelper {
 
     private final TokenSteps tokenSteps = new TokenSteps();
 
+    /**
+     * Получить гостевой access_token
+     * @param username - логин
+     * @return access_token
+     */
     public String getGuestToken(String username) {
         TokenRequest tokenRequest = TokenRequest.builder()
                 .grantType(GrantType.CLIENT_CREDENTIALS.toString())

@@ -4,9 +4,10 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.cucumber.java.ru.Когда;
 import org.aeonbits.owner.ConfigFactory;
-import org.slotegrator.core.driver.Driver;
 import org.slotegrator.core.props.Properties;
 import org.slotegrator.pages.LoginPage;
+
+import static com.codeborne.selenide.Selenide.open;
 
 public class LoginSteps {
 
@@ -15,7 +16,7 @@ public class LoginSteps {
 
     @Когда("авторизовываемся в админке пользователем {string}")
     public void authorize(String username) {
-        Driver.openPage(properties.getUrl());
+        open(properties.getUrl());
         loginPage.getRequiredElements().forEach(el -> {
             el.shouldBe(Condition.visible);
         });

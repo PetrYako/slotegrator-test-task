@@ -1,13 +1,35 @@
-def cucumberVersion = '7.8.1'
+def cucumberVersion = '7.9.0'
 
 dependencies {
     //Cucumber
     implementation "io.cucumber:cucumber-java:$cucumberVersion"
-    testImplementation "io.cucumber:cucumber-junit-platform-engine:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
 
     implementation 'com.codeborne:selenide:6.10.1'
     implementation 'org.seleniumhq.selenium:selenium-java:4.6.0'
     implementation 'org.reflections:reflections:0.10.2'
-    implementation 'org.junit.platform:junit-platform-suite:1.9.1'
-    implementation 'io.qameta.allure:allure-cucumber7-jvm:2.19.0'
+
+    implementation 'io.qameta.allure:allure-selenide:2.20.0'
+    implementation 'io.qameta.allure:allure-cucumber7-jvm:2.20.1'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            systemProperty("allure.results.directory", "build/allure-results")
+
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm',
+                    '--glue',
+                    'org.slotegrator', 'src/test/resources']
+        }
+    }
 }

@@ -32,7 +32,9 @@ subprojects {
         //JUnit
         implementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+        testImplementation "org.junit.vintage:junit-vintage-engine:$junitVersion"
 
+        testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
         implementation "io.qameta.allure:allure-java-commons:$allureVersion"
 
         implementation 'org.aeonbits.owner:owner:1.0.12'
@@ -46,10 +48,6 @@ subprojects {
     allure {
         version = allureVersion
         aspectjweaver = true
-        autoconfigure = true
-
-        useJUnit5 {
-            version = allureVersion // Latest Allure Version
-        }
+        autoconfigure = false
     }
 }

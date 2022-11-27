@@ -28,6 +28,12 @@ public class PlayersHelper {
         String name = faker.name().firstName();
         String surname = faker.name().lastName();
 
+        /*
+        currency=null, т к на данный момент при отправке запроса с currency_code=EUR возвращается ошибка
+        + данный параметр optional
+
+        это можно увидеть в тесте PlayerRegistrationTest
+         */
         PlayersRequest playersRequest= playersBuilder.createPlayerForRegistration(newUsername, password, email, name, surname, null);
         String accessToken = tokenHelper.getGuestToken(guestUsername);
         return playersSteps.registerPlayer(playersRequest, accessToken);

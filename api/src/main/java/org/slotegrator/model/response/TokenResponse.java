@@ -17,6 +17,11 @@ public class TokenResponse extends ToStringImpl {
     @JsonProperty("access_token")
     private String accessToken;
 
+    /**
+     * Данный параметр не приходит в ответе от oauth2
+     * Но в примерах он присутствует
+     * Возможно дефект, но спецификации нет
+     */
     @JsonProperty("refresh_token")
     private String refreshToken;
 }

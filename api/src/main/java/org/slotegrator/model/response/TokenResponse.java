@@ -3,11 +3,11 @@ package org.slotegrator.model.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.slotegrator.model.ToStringImpl;
+import org.slotegrator.model.AbstractModel;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class TokenResponse extends ToStringImpl {
+public class TokenResponse extends AbstractModel {
     @JsonProperty("token_type")
     private String tokenType;
 

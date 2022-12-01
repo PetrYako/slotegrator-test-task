@@ -2,6 +2,9 @@ package org.slotegrator.helpers;
 
 import com.github.javafaker.Faker;
 import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.util.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.slotegrator.builders.PlayersBuilder;
 import org.slotegrator.config.Properties;
 import org.slotegrator.model.request.PlayersRequest;
@@ -17,12 +20,23 @@ public class PlayersHelper {
     private final Properties properties = ConfigFactory.create(Properties.class);
 
     /**
-     * Регистрация нового пользователя со случайными данными
+     * Регистарция пользователя со случайными данными
+     * @return овтет с данными созданного пользователя
+     */
+    public PlayersResponse registerNewPlayer() {
+        String username = "AT-" + RandomUtils.nextLong();
+        String password = Base64.encode(RandomStringUtils.randomAlphanumeric(8).getBytes());
+
+        return registerNewPlayerWith(username, password);
+    }
+
+    /**
+     * Регистрация нового пользователя с заданным логином и паролем
      * @param newUsername - логин
      * @param password - пароль
      * @return ответ с данными созданного пользователя
      */
-    public PlayersResponse registerNewPlayer(String newUsername, String password) {
+    public PlayersResponse registerNewPlayerWith(String newUsername, String password) {
         String guestUsername = properties.guestUsername();
         String email = newUsername + "@example.com";
         String name = faker.name().firstName();

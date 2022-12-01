@@ -3,7 +3,7 @@ package org.slotegrator.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class ToStringImpl {
+public abstract class AbstractModel {
 
     @Override
     public String toString() {

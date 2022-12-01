@@ -26,21 +26,14 @@ public class GetAnotherPlayerDataTest {
     private final PlayersSteps playersSteps = new PlayersSteps();
     private final Properties properties = RestAssuredExtension.properties;
 
-    private PlayersResponse createPlayer() {
-        String newUsername = "AT-" + RandomUtils.nextLong();
-        String password = Base64.encode(RandomStringUtils.randomAlphanumeric(8).getBytes());
-
-        return playersHelper.registerNewPlayer(newUsername, password);
-    }
-
     @Test
     @DisplayName("Запросить данные другого игрока")
     void testGetAnotherPlayerDataTest() {
         String newUsername = "AT-" + RandomUtils.nextLong();
         String password = Base64.encode(RandomStringUtils.randomAlphanumeric(8).getBytes());
 
-        playersHelper.registerNewPlayer(newUsername, password);
-        PlayersResponse secondPlayerResp = createPlayer();
+        playersHelper.registerNewPlayerWith(newUsername, password);
+        PlayersResponse secondPlayerResp = playersHelper.registerNewPlayer();
 
         TokenRequest tokenReq = TokenRequest.builder()
                 .grantType(GrantType.PASSWORD.toString())

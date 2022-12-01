@@ -29,7 +29,7 @@ public class AuthWithExistingPlayerTest {
         String newUsername = "AT-" + RandomUtils.nextLong();
         String password = Base64.encode(RandomStringUtils.randomAlphanumeric(8).getBytes());
 
-        playersHelper.registerNewPlayer(newUsername, password);
+        playersHelper.registerNewPlayerWith(newUsername, password);
 
         TokenRequest tokenReq = TokenRequest.builder()
                 .grantType(GrantType.PASSWORD.toString())

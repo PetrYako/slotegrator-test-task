@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.slotegrator.model.ToStringImpl;
+import org.slotegrator.model.AbstractModel;
 
 import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PlayersResponse extends ToStringImpl {
-    @JsonProperty("id")
+public class PlayersResponse extends AbstractModel {
     private Long id;
 
     @JsonProperty("country_id")
@@ -20,19 +19,10 @@ public class PlayersResponse extends ToStringImpl {
     @JsonProperty("timezone_id")
     private String timezoneId;
 
-    @JsonProperty("username")
     private String username;
-
-    @JsonProperty("email")
     private String email;
-
-    @JsonProperty("name")
     private String name;
-
-    @JsonProperty("surname")
     private String surname;
-
-    @JsonProperty("gender")
     private String gender;
 
     @JsonProperty("phone_number")

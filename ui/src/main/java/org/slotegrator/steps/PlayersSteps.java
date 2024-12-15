@@ -13,12 +13,12 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.page;
 import static com.codeborne.selenide.Selenide.sleep;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayersSteps {
 
     private final PlayersPage playersPage = page(PlayersPage.class);
-    private List<String> columnValues = new LinkedList<>();
+    private ThreadLocal<LinkedList<String>> columnValues = ThreadLocal.withInitial(LinkedList::new);
 
     @Тогда("появляется таблица с игроками")
     public void playerTableLoaded() {
@@ -27,8 +27,8 @@ public class PlayersSteps {
 
     @Когда("запоминаем данные колонки {string} в таблице с игроками")
     public void saveDataFromColumn(String column) {
-        ElementsCollection valueElements = getDataFromColumn(column);
-        columnValues.addAll(valueElements.texts());
+        List<String> values = getDataFromAllTable(column);
+        columnValues.get().addAll(values);
     }
 
     @Когда("нажимаем на колонку с названием {string}")
@@ -38,25 +38,52 @@ public class PlayersSteps {
 
     @Тогда("происходит сортировка таблицы с игроками по колонке {string}")
     public void tableSorted(String column) {
-        sleep(5000);
-        ElementsCollection valueElements = getDataFromColumn(column);
-        assertNotEquals(columnValues, valueElements.texts());
+        List<String> sortedColumns = (List<String>) columnValues.get().stream().sorted();
+        playersPage.firstBtn.click();
+        List<String> currentColumns = new LinkedList<>(getDataFromAllTable(column));
+
+        assertEquals(sortedColumns, currentColumns);
+    }
+
+    /**
+     * Проходимся по всей таблице, по всем страницам и собираем данные
+     * @param column - название колонки
+     * @return данные колонки
+     */
+    private List<String> getDataFromAllTable(String column) {
+        List<String> values = new LinkedList<>();
+        int index = getColumnIndex(column);
+        do {
+            ElementsCollection valueElements = getDataFromColumn(index);
+            values.addAll(valueElements.texts());
+            playersPage.nextBtn.click();
+            sleep(500);
+        } while (playersPage.nextBtn.isDisplayed());
+        return values;
     }
 
     /**
      * Сбор данных из столбца column
-     * @param column - название столбца
+     * @param index - индекс столбца
      * @return коллекция элементов (строк)
      */
-    private ElementsCollection getDataFromColumn(String column) {
-        ElementsCollection elements = playersPage.playersTable.findAll(By.xpath(".//thead//th//a"));
+    private ElementsCollection getDataFromColumn(int index) {
+        return playersPage.playersTable.findAll(By.xpath(".//tbody//tr//td[" + (index + 1) + "]"));
+    }
+
+    /**
+     * Вернуть индекс колонки
+     * @return индекс
+     */
+    private int getColumnIndex(String columnName) {
+        ElementsCollection elements = playersPage.playersTable.findAll(By.xpath(".//thead//th"));
         int index = 0;
         for (SelenideElement element : elements) {
-            if (element.text().equals(column)) {
+            if (element.text().equals(columnName)) {
                 break;
             }
             index++;
         }
-        return playersPage.playersTable.findAll(By.xpath(".//tbody//tr//td[" + (index + 2) + "]"));
+        return index;
     }
 }
